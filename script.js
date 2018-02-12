@@ -1,39 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+            
+            
+</head>
+<body>
 function startGame(){
-var answer = prompt("Do you want to play a game?");
-    if(answer.toLowerCase()  === 'yes'){
-      var userName = prompt('What is your UserName?');
-      startCombat(userName)
-    }
-}  
- 
- function startCombat(userName){
-    var enemyName = "Grant";
-    var userHealth = 40;
-    var grantHealth = 10;
-    var wins = 0;
-    while (userHealth > 0 && wins < 3){
-      var attack = prompt("Do you want to attack?");
-      userHealth -= getDamage();
-      grantHealth -= getDamage();
-      console.log(`${userName} has ${userHealth} health left.`);
-      console.log(`Grant has ${grantHealth} health left.`);
+    var question = prompt("Do you want to play a game?");
+    if (question.toLowerCase() === 'yes' || 'y'){
         
-        wins++;
-        grantHealth = 10;
-       
-       
-    if(attack.toLowerCase()  === 'no'){
-      console.log("Game Over");
-      break;
+        var userName = prompt("What is your name?");
+        startCombat(userName);
+        
+    }else{
+        console.log("You Suck");
     }
-      if(grantHealth <= 0){
+}
     
-        console.log('You have defeated ' + enemyName + '!');
-    }
-      }
- }
-  function getDamage(){
-    return Math.floor((Math.random() * 5) + 1);
-  }  
+    var user= {
+        name: null,
+        health: 40,
+        healsRemaining: 2,
+        wins: 0,
+        generateAttackDamage: function() {
+            damage = Math.floor(Math.random() * 3) + 1;
+            return damage;
+            
+        },
+        heal: function() {
+            this.health += Math.floor(Math.random() * 10) + 1;
+            this.heroHealsRemaining --;
+        }
+        
+    };  
+    
+    var grant = {
+        name:`Grant`,
+        health:10,
+        generateAttackDamage: function() {
+            damage = Math.floor(Math.random() * 5) + 1;
+            return damage;
+        }
+    }; 
+    
 startGame();
+function startCombat(userName){
+    user.name = userName;
+while(user.health>0 && user.wins<3)
+   {
+     var attack=prompt("Would you like to attack, heal or quit?");
+     if (attack.toLowerCase() === 'quit'){
+       console.log("you quit!");
+       return;
+     }
+      if (attack.toLowerCase()=== 'attack'){
+     user.health -= grant.generateAttackDamage();
+     grant.health -= user.generateAttackDamage();
+     console.log(`${userName} has ${user.health} health left`);
+     console.log(`Grant has ${grant.health} health left`);
+     
+      }else if (attack.toLowerCase()=== 'heal'){
+                user.heal();
+                
+            } else {
+        console.log("you must choose \'attack\' or \'quit\'  ");
+        continue;
+      }
+     
+     if (grant.health<=0){
+       user.wins++;
+       grant.health = 10;
+       console.log(`${user.wins} victory`);
+     }
+   }
+   if (wins === 5){
+         console.log(`${user.name} wins! Grant is defeated`);
+        }else{
+            console.log(`${grant.name} Wins!`);
+        }
+    }        
+
+    <script src="script.js"></script>
+</body>
+
+</html>
 
